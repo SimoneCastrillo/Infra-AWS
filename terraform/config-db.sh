@@ -18,6 +18,26 @@ while [ $count -lt $max_retries ]; do
 
   if [ $? -eq 0 ]; then
     echo "Configuração do PostgreSQL concluída com sucesso."
+
+    # Cria arquivo SQL com inserts
+    cat <<EOF > /tmp/init_inserts.sql
+INSERT INTO tipo_evento (nome) VALUES
+('INFANTIL'),
+('CASAMENTO'),
+('DEBUTANTE'),
+('COFFEE_BREAK'),
+('ANIVERSARIO'),
+('ALUGUEL_ESPACO'),
+('OUTROS');
+
+INSERT INTO usuario (id, nome, email, senha, telefone, role, foto) VALUES
+(1, 'Admin', 'admin@admin.com', '\$2a\$10\$cuFV.4t1ZN5QXJhjMjC3guQfusJyw0uQiAw/unrL6ch1P2W9V1hvW', '11999990000', 'ADMIN', NULL), 
+(2, 'Usuario', 'usuario@usuario.com', '\$2a\$10\$cuFV.4t1ZN5QXJhjMjC3guQfusJyw0uQiAw/unrL6ch1P2W9V1hvW', '1199782111', 'USUARIO', NULL);
+EOF
+
+    # Executa inserts no banco buffet com usuário buffet_user
+    sudo -u postgres psql -d buffet -f /tmp/init_inserts.sql
+
     success=1
     break
   else
