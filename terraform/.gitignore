@@ -1,0 +1,8 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+id_rsa*
+*.pem
+ubuntu@*

@@ -1,0 +1,40 @@
+services:
+  app:
+    image: giuliacarmona/app:latest #puxa image do dockerhub
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - mynetwork
+
+  db:
+    image: giuliacarmona/postgres:14 #puxa image do dockerhub
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: buffet_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: buffet
+      TERM: xterm-256color
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "buffet_user", "-d", "buffet" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
