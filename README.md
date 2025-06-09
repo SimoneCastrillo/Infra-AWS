@@ -6,7 +6,6 @@ Este repositório contém os arquivos e configurações necessários para provis
 
 ## 📂 Estrutura do Repositório  
 - **terraform/**: Arquivos de configuração Terraform para provisionamento.  
-- **shell/**: Scripts auxiliares para automação de tarefas.  
 - **README.md**: Este documento, contendo informações sobre o projeto.
 
 ## 🚀 Tecnologias Utilizadas  
