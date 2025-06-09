@@ -159,7 +159,7 @@ EOF
 
 locals {
   google_credentials = jsonencode({
-    
+  
   })
 }
 
@@ -234,6 +234,7 @@ resource "aws_instance" "backend1" {
     sudo docker pull euardopulcino/app:latest
     sudo docker run -d \
       --name backend \
+      --network host \
       -p 8080:8080 \
       -e GOOGLE_CALENDAR_CREDENTIALS='${local.google_credentials}' \
       -e GOOGLE_CALENDAR_ID="dudu.castrillo@gmail.com" \
@@ -242,6 +243,7 @@ resource "aws_instance" "backend1" {
       -e SPRING_DATASOURCE_PASSWORD="password" \
       -e EMAIL_USERNAME="dudu.castrillo@gmail.com" \
       -e EMAIL_PASSWORD="--" \
+      -e JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true" \
       euardopulcino/app:latest
   EOF
 }
@@ -287,6 +289,7 @@ resource "aws_instance" "backend2" {
     sudo docker pull euardopulcino/app:latest
     sudo docker run -d \
       --name backend \
+      --network host \
       -p 8080:8080 \
       -e GOOGLE_CALENDAR_CREDENTIALS='${local.google_credentials}' \
       -e GOOGLE_CALENDAR_ID="dudu.castrillo@gmail.com" \
@@ -295,6 +298,7 @@ resource "aws_instance" "backend2" {
       -e SPRING_DATASOURCE_PASSWORD="password" \
       -e EMAIL_USERNAME="dudu.castrillo@gmail.com" \
       -e EMAIL_PASSWORD="--" \
+      -e JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true" \
       euardopulcino/app:latest
   EOF
 }
